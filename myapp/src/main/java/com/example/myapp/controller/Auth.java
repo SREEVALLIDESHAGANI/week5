@@ -1,4 +1,4 @@
-package com.example.myapp.controller;
+/*package com.example.myapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,4 +34,51 @@ public class Auth {
         return "signup sucess ...!";
     }
     
+}*/
+package com.example.myapp.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.myapp.model.User;
+import com.example.myapp.repo.UserRepo;
+
+@RestController
+@RequestMapping("/auth")
+public class Auth {
+
+    @Autowired
+    private UserRepo userRepo;
+
+    // ✅ SIGNUP / REGISTER
+    @PostMapping("/signup")
+    public String signup(@RequestBody User user) {
+
+        User existingUser = userRepo.findByUsername(user.getUsername());
+
+        if (existingUser != null) {
+            return "Username already exists";
+        }
+
+        userRepo.save(user);
+        return "Signup successful";
+    }
+
+    // ✅ LOGIN
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+
+        User dbUser = userRepo.findByUsername(user.getUsername());
+
+        if (dbUser == null) {
+            return "User not found";
+        }
+
+        if (dbUser.getPassword().equals(user.getPassword())) {
+            return "Login successful";
+        } else {
+            return "Invalid password";
+        }
+    }
 }
+

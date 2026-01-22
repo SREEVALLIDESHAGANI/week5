@@ -1,4 +1,4 @@
-package com.example.myapp.model;
+/*package com.example.myapp.model;
 
 
 import jakarta.persistence.Column;
@@ -24,4 +24,31 @@ public class User {
     String email;
     @Column(nullable = false)
     String password;
+}*/
+package com.example.myapp.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class User {
+
+    @Id
+    private String username;
+    private String password;
+
+    public User() {}
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
